@@ -40,9 +40,6 @@ public class MainActivity extends Activity {
         int Time = 0;
         Hero hero = new Hero(display.getWidth());
 
-        /////
-        long Lasttime=System.currentTimeMillis();
-        /////
 
         Map map = new Map(display.getHeight(), display.getWidth());
         public final int y = display.getHeight() - hero.size * 2;
@@ -57,12 +54,15 @@ public class MainActivity extends Activity {
         public Game(Context context) {
             super(context);
         }
+        /*OnDraw on meie main tsükkel (lõpmatu)
+            Siin ta kontrollib, mis on praegune mängu staatus ning joonistab sõltuvalt sellest vajalikud asjad.
+            Lõppus liigutab hero´t ja map´i (Kui on gamestaatus GAME)
 
+         */
         protected void onDraw(Canvas canvas){
             if (GAMESTATUS == "INTRO") {
 
-                //Здесь код для интро.(Мини видео)
-                //В конце
+
 
                 Paint text = new Paint();
                 text.setColor(Color.BLUE);
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
                 image = BitmapFactory.decodeResource(getResources(),R.drawable.name);
                 smallimage = Bitmap.createScaledBitmap(image, display.getWidth(), display.getHeight() / 5, false);
                 canvas.drawBitmap(smallimage,0,0,null);
-                //BUTTON
+
                 image = BitmapFactory.decodeResource(getResources(),R.drawable.play);
                 double halfWidth = display.getWidth()/1.2;
                 double w = display.getWidth()/2;
@@ -91,25 +91,23 @@ public class MainActivity extends Activity {
             }
 
             if (GAMESTATUS == "TUTORIAL") {
-                //tutorial
-                //Незнаю еще как сделаем
+
             }
 
             if (GAMESTATUS == "SETTINGS") {
-                //не обязательно, но желательно
+
             }
 
             if (GAMESTATUS == "CHOOSEWORLD") {
-                //Это дополнение к игре(Для себя написал)
+
             }
 
             if (GAMESTATUS == "PAUSE") {
-                //С паузы можно обратно в игру или в главное меню
+
             }
 
             if (GAMESTATUS == "LOSE") {
-                //Здесь может выскачить реклама
-                //После рекламы можно сделать подсчет очков
+
             }
 
             if (GAMESTATUS == "GAME") {//Ну и основной
@@ -130,12 +128,12 @@ public class MainActivity extends Activity {
                 r = new Rect((int) hero.x, y, (int) hero.x + size,y+ size);
                 pink.setStyle(Paint.Style.FILL);
                 pink.setColor(Color.rgb(255, 128, 128));
-                //canvas.drawRect(p1, pink);
+                //canvas.drawRect(p1, pink);siin on hero positsioonid testi jaoks
                 //canvas.drawRect(p2, pink);
                 //canvas.drawRect(p3, pink);
                 //canvas.drawRect(p4, pink);
 
-                //Просто нарисовал персонажа(Нельзе оставлять тут!!!)
+
                 image = BitmapFactory.decodeResource(getResources(),R.drawable.statusstop_three);
                 smallimage = Bitmap.createScaledBitmap(image,size, size*2, false);
                 canvas.drawBitmap(smallimage,(int)hero.x,y,null);
@@ -143,7 +141,7 @@ public class MainActivity extends Activity {
 
                 paint.setStyle(Paint.Style.FILL);
                 paint.setColor(Color.RED);
-                //canvas.drawRect(r, paint);//Hero draw
+                //canvas.drawRect(r, paint);//Hero draw test
                 for (Platform i : map.platforms) {//platforms draw
                     rect = new Rect((int) i.x, (int) i.y, (int) i.x2, (int) i.y2);
                     canvas.drawRect(rect, paint);
@@ -158,24 +156,17 @@ public class MainActivity extends Activity {
                 map.moveMap();
                 map.clean();
                 if (map.check(hero.x, y,size) == false){
-                    //Персонаж умер
-                    //Тут анимация смерти и переход на GAMESTATUS=="LOSE"
+
                 }
                 Time++;
-                map.updateDelta(System.currentTimeMillis(), Lasttime);
-                Lasttime=System.currentTimeMillis();
 
-                Paint word = new Paint();
-                word.setTextSize(40);
-                word.setColor(Color.BLACK);
-                canvas.drawText("Last "+map.Delta,100,40,word);
-                canvas.drawText("Current "+map.MapSpeed,100,100,word);
+
             }
             invalidate();
         }
 
         @Override
-        public boolean onTouchEvent(MotionEvent event) {
+        public boolean onTouchEvent(MotionEvent event) {//Siin need eventid
             float evX = event.getX();
             float evY = event.getY();
             int index = event.getActionIndex();
@@ -251,7 +242,6 @@ public class MainActivity extends Activity {
                     }
                     break;
             }
-            invalidate();
             return true;
         }
     }
